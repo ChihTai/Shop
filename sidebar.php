@@ -14,7 +14,8 @@ if(!empty($_SESSION['user'])){
 }
 ?>
   <ul class="menu">
-    <?php 
+  <?php 
+/*     
     if(in_array(1,$pr)){ 
     echo "<li>關於我們</li>";
     }
@@ -33,6 +34,15 @@ if(!empty($_SESSION['user'])){
     if(in_array(6,$pr)){  
     echo "<li>生活留影</li>";
     }
+ */
+?>
+    <?php
+    echo (in_array(1,$pr))?"<li>關於我們</li>":"";
+    echo (in_array(2,$pr))?"<li>最新消息</li>":"";    
+    echo (in_array(3,$pr))?"<li>活動資訊</li>":"";
+    echo (in_array(4,$pr))?"<li>產品訂購</li>":"";
+    echo (in_array(5,$pr))?"<li>留言板</li>":"";
+    echo (in_array(6,$pr))?"<li>生活留影</li>":"";    
     ?>
   </ul>
 </div>
