@@ -26,50 +26,16 @@
     $chk2=false;
 
   }else{
-   
-    $chk2=true;
-  
-  }
-
-  //檢查全為數字
-  $chkNum=0;
-  for($i=0;$i<strlen($acc);$i++){
-
-    $str=substr($acc,$i,1);
-    if(ord($str) >= 48 && ord($str) <= 57){
-      $chkNum++;
+      $chk2=true;
     }
-  }
-
-//檢查全為英文
-  $chkEng=0;
-  for($i=0;$i<strlen($acc);$i++){
-
-    $str=substr($acc,$i,1);
-    if((ord($str) >= 65 && ord($str) <= 90) || (ord($str) >= 97 && ord($str) <= 122) ){
-      $chkEng++;
-    }
-  }
-
-  //檢查特殊符號
-  $chkSym=0;
-  for($i=0;$i<strlen($acc);$i++){
-
-    $str=substr($acc,$i,1);
-    if(!(ord($str) >= 65 && ord($str) <= 90) && !(ord($str) >= 97 && ord($str) <= 122) && !(ord($str) >= 48 && ord($str) <= 57) ){
-      $chkSym++;
-    }
-
-  }
 
   //英數字與特殊符號綜合判定
-  if($chkSym > 0 || $chkEng==strlen($acc) || $chkNum==strlen($acc) ){
+  if(chkSym($acc) || chkEng($acc) || chkNum($acc) ){
     echo "有特殊符號，而且全英文或數字";
     $chk3=false;
   }else{
     $chk3=true;
   }
-
   /*********************檢查密碼************************************* */
   //檢查資料長度
   if(strlen($pw) < 4 || strlen($pw) > 12 ){
@@ -78,50 +44,16 @@
     $chkPw1=false;
 
   }else{
-   
     $chkPw1=true;
-  
-  }
-
-  //檢查全為數字
-  $chkNum=0;
-  for($i=0;$i<strlen($pw);$i++){
-
-    $str=substr($pw,$i,1);
-    if(ord($str) >= 48 && ord($str) <= 57){
-      $chkNum++;
-    }
-  }
-
-//檢查全為英文
-  $chkEng=0;
-  for($i=0;$i<strlen($pw);$i++){
-
-    $str=substr($pw,$i,1);
-    if((ord($str) >= 65 && ord($str) <= 90) || (ord($str) >= 97 && ord($str) <= 122) ){
-      $chkEng++;
-    }
-  }
-
-  //檢查特殊符號
-  $chkSym=0;
-  for($i=0;$i<strlen($pw);$i++){
-
-    $str=substr($pw,$i,1);
-    if(!(ord($str) >= 65 && ord($str) <= 90) && !(ord($str) >= 97 && ord($str) <= 122) && !(ord($str) >= 48 && ord($str) <= 57) ){
-      $chkSym++;
-    }
-
   }
 
   //英數字與特殊符號綜合判定
-  if($chkSym > 0 || $chkEng==strlen($pw) || $chkNum==strlen($pw) ){
+  if(chkSym($pw) || chkEng($pw) || chkNum($pw) ){
     echo "密碼有特殊符號，或全英文或數字";
     $chkPw2=false;
   }else{
     $chkPw2=true;
   }
-
 
   /*******檢查帳號是否已存在 */
 
@@ -133,8 +65,6 @@
   }else{
     $chkAccount=false;
   }
-
-
 
   if($chk1==true && $chk2==true && $chk3==true && $chkPw1==true && $chkPw2==true && $chkAccount==false){
      //建立新增資料的語法
