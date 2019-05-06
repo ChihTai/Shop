@@ -14,59 +14,25 @@ if(!empty($_SESSION['user'])){
 }
 ?>
   <ul class="menu">
-    <?php
-      for($i=0;$i<count($pr);$i++){
-        if($pr[$i]=='1'){
+    <?php 
+    if(in_array(1,$pr)){ 
+    echo "<li>關於我們</li>";
+    }
+    if(in_array(2,$pr)){ 
+    echo "<li>最新消息</li>";
+    }
+    if(in_array(3,$pr)){  
+    echo "<li>活動資訊</li>";
+    }
+    if(in_array(4,$pr)){  
+    echo "<li>產品訂購</li>";
+    }
+    if(in_array(5,$pr)){  
+    echo "<li>留言板</li>";
+    }
+    if(in_array(6,$pr)){  
+    echo "<li>生活留影</li>";
+    }
     ?>
-    <li>關於我們</li>
-    <?php
-             }
-            }
-      ?>
-    <?php
-      for($i=0;$i<count($pr);$i++){
-        if($pr[$i]=='2'){
-    ?>
-    <li>最新消息</li>
-    <?php
-             }
-            }
-      ?>
-    <?php
-      for($i=0;$i<count($pr);$i++){
-        if($pr[$i]=='3'){
-    ?>
-    <li>活動資訊</li>
-    <?php
-             }
-            }
-      ?>
-    <?php
-      for($i=0;$i<count($pr);$i++){
-        if($pr[$i]=='1'){
-    ?>
-    <li>產品訂購</li>
-    <?php
-             }
-            }
-      ?>
-    <?php
-      for($i=0;$i<count($pr);$i++){
-        if($pr[$i]=='1'){
-    ?>
-    <li>留言板</li>
-    <?php
-             }
-            }
-      ?>
-    <?php
-      for($i=0;$i<count($pr);$i++){
-        if($pr[$i]=='1'){
-    ?>
-    <li>生活留影</li>
-    <?php
-             }
-            }
-      ?>
   </ul>
 </div>
