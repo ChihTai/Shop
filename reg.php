@@ -1,5 +1,4 @@
 <?php
-  include_once "base.php";
 
   if(!empty($_POST)){
     $acc=$_POST['acc'];
@@ -20,34 +19,8 @@
   }
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>我的店</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="wrap">
-  <div id="header">
-  <?php include_once "nav.php" ;?>
-    <div id="banner"></div>
-  </div>
-  <?php include "sidebar.php" ;?>
-  <div id="content">
-  <?php
-    if(!empty($_GET['do'])){
-      echo $_GET['do'];
-      if($_GET['do']=='reg'){
-        include "reg.php";
-      }
-    }else{
-      echo "沒事";
-    }
-  ?>
-  <form action="?" method="post">
+
+  <form action="index.php?do=reg" method="post">
   <table>
     <tr>
       <td>帳號</td>
@@ -67,9 +40,3 @@
     </tr>
   </table>
 </form>
-
-  </div>
-  <?php include "footer.php" ;?>
-</div>  
-</body>
-</html>

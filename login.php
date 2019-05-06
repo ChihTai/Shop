@@ -1,5 +1,4 @@
 <?php
-  include_once "base.php";
 
 if(!empty($_POST)){  //判斷是否有POST的值傳入
 
@@ -19,28 +18,11 @@ if(!empty($_POST)){  //判斷是否有POST的值傳入
 }
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>我的店</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="wrap">
-  <div id="header">
-  <?php include_once "nav.php" ;?>
-    <div id="banner"></div>
-  </div>
-  <?php include "sidebar.php" ;?>
-  <div id="content">
 
   <?php 
 if(empty($_SESSION['login'])){ //判斷是否有狀態值或GET值
 ?>
-<form action="login.php?do=login" method="post">
+<form action="index.php?do=login" method="post">
 <table class="login">
   <tr>
     <td>帳號:(mack)</td>
@@ -59,11 +41,6 @@ if(empty($_SESSION['login'])){ //判斷是否有狀態值或GET值
 <?php 
 }else{
   echo "你已登入過<br>";
-  echo "<a href='member.php'>回到會員中心</a>";
+  echo "<a href='index.php?do=member'>回到會員中心</a>";
 }
 ?>
-  </div>
-  <?php include "footer.php" ;?>
-</div>  
-</body>
-</html>

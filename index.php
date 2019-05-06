@@ -1,3 +1,4 @@
+<?php include_once "base.php";?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,31 +15,36 @@
     <div id="banner"></div>
   </div>
     <?php include "sidebar.php" ;?>
-
   <div id="content">
   <?php
+
     if(!empty($_GET['do'])){
-      //echo $_GET['do'];
       $do=$_GET['do'];
     }else{
       $do="";
     }
 
+    //$do=(!empty($_GET['do']))?$_GET['do']:"";
+
     switch($do){
       case "login":
-        include "login";
+         include "login.php";
       break;
       case "reg":
-        include "reg";
+        include "reg.php";
       break;
       case "member":
-        include "member";
+        include "member.php";
       break;
       default:
 
-      break;            
+      break;
     }
+
   ?>
+  
+  
+  
   </div>
   <?php include "footer.php" ;?>
 </div>  
