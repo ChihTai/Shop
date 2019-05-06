@@ -17,7 +17,7 @@
 
 <!----帶入登入狀態值---->
  <a href="index.php">回到首頁</a><br>
- <a href="logout.php">登出</a>
+
 
 </body>
 </html>
