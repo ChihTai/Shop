@@ -9,56 +9,18 @@
     $pw=$_POST['pw'];
     $name=$_POST['name'];
 
-    //建立一個錯誤訊息的字串陣列
-    $errMeg=[
-      1=>"欄位請勿空白",
-      2=>"欄位長度請在4-12之間",
-      3=>"欄位全是數字，請至少一個以上的英文字",
-      4=>"欄位全是英文，請至少一個以上的數字",
-      5=>"欄位請勿使用英數字以外的符號"
-    ];
+
 
   /*********************檢查帳號************************************* */
-    $accErr=""; //建立一個存放錯誤訊息的空字串
-
-    //逐一檢查各項錯誤，並累加各項錯誤訊息
-    if(chkSpace($acc)){
-      $accErr=$accErr . $errMeg[1];
-    }
-    if(!chkLength($acc)){
-      $accErr=$accErr . $errMeg[2];
-    }
-    if(chkSym($acc)){
-      $accErr=$accErr . $errMeg[5];
-    }
-
+    $accErr=chkform(['space','length','sym'],$acc);
 
   /*********************檢查密碼************************************* */
-    $pwErr="";
-    if(chkSpace($pw)){
-      $pwErr=$pwErr . $errMeg[1];
-    }
-    if(!chkLength($pw)){
-      $pwErr=$pwErr . $errMeg[2];
-    }
-    if(chkNum($pw)){
-      $pwErr=$pwErr . $errMeg[3];
-    }    
-    if(chkEng($pw)){
-      $pwErr=$pwErr . $errMeg[4];
-    }    
-    if(chkSym($pw)){
-      $pwErr=$pwErr . $errMeg[5];
-    }    
+    $pwErr=chkform(['space','length','num','eng','sym'],$pw);
 
   /*********************檢查名稱************************************* */
-  $nameErr="";
-  if(chkSpace($name)){
-    $nameErr=$nameErr . $errMeg[1];
-  }
-  if(chkSym($name)){
-    $nameErr=$nameErr . $errMeg[5];
-  }  
+    $nameErr=chkform(['space','sym'],$name);
+
+
   /*******檢查帳號是否已存在 */
 
   $sql="select acc from user where acc='$acc'";

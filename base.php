@@ -4,12 +4,56 @@
   $pdo=new PDO($dsn,"root","");
 
   session_start();
+    //建立一個錯誤訊息的字串陣列
+ $errMeg=[
+      1=>"欄位請勿空白",
+      2=>"欄位長度請在4-12之間",
+      3=>"欄位全是數字，請至少一個以上的英文字",
+      4=>"欄位全是英文，請至少一個以上的數字",
+      5=>"欄位請勿使用英數字以外的符號"
+    ];
+function chkform($array,$str){
+  global $errMeg;
+  $err="";
+  foreach($array as $a){
+    switch($a){
+      case "space":
+        if(chkSpace($str)){
+          $err=$err . $errMeg[1];
+        }
+      break;
+      case "length":
+      if(!chkLength($str)){
+        $err=$err . $errMeg[2];
+      }
+      break;
+      case "num":
+      if(chkNum($str)){
+        $err=$err . $errMeg[3];
+      }
+      break;
+      case "eng":
+      if(chkEng($str)){
+        $err=$err . $errMeg[4];
+      }
+      break;
+      case "sym":
+      if(chkSym($str)){
+        $err=$err . $errMeg[5];
+      }
+      break;
+    }
+  }
+  return $err;
+
+
+
+}
+
 
 //取出指定ID的資料
 function find($table,$id){
-  $dsn="mysql:host=localhost;charset=utf8;dbname=shop";
-  $pdo=new PDO($dsn,"root","");
-  
+  global $pdo;
   $sql="select * from $table where id='$id'";
   $rows=$pdo->query($sql)->fetch();
   return $rows;
@@ -17,9 +61,7 @@ function find($table,$id){
 
 //取出全部資料表的資料
 function all($table){
-  $dsn="mysql:host=localhost;charset=utf8;dbname=shop";
-  $pdo=new PDO($dsn,"root","");
-  
+  global $pdo;
   $sql="select * from $table";
   $rows=$pdo->query($sql)->fetchAll();
   return $rows;
@@ -27,8 +69,7 @@ function all($table){
 
 //更新資料表
 function update($array){
-  $dsn="mysql:host=localhost;charset=utf8;dbname=shop";
-  $pdo=new PDO($dsn,"root","");
+  global $pdo;
   //處理$set陣列
   foreach($array['set'] as $key => $value){
 
@@ -61,7 +102,7 @@ function chkSpace($str){
 function chkLength($str){
   $min=4;
   $max=12;
-  if(strlen($str) >= $min || strlen($str) <= $max ){
+  if(strlen($str) >= $min && strlen($str) <= $max){
     return true;
   }
 }
