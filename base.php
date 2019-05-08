@@ -1,10 +1,54 @@
 <?php
   //連線資料庫
-  //$dsn="mysql:host=localhost;charset=utf8;dbname=shop";
-  $dsn="mysql:host=localhost;charset=utf8;dbname=108_php_01";
+  $dsn="mysql:host=localhost;charset=utf8;dbname=shop";
   $pdo=new PDO($dsn,"root","");
 
   session_start();
+
+//取出指定ID的資料
+function find($table,$id){
+  $dsn="mysql:host=localhost;charset=utf8;dbname=shop";
+  $pdo=new PDO($dsn,"root","");
+  
+  $sql="select * from $table where id='$id'";
+  $rows=$pdo->query($sql)->fetch();
+  return $rows;
+}
+
+//取出全部資料表的資料
+function all($table){
+  $dsn="mysql:host=localhost;charset=utf8;dbname=shop";
+  $pdo=new PDO($dsn,"root","");
+  
+  $sql="select * from $table";
+  $rows=$pdo->query($sql)->fetchAll();
+  return $rows;
+}
+
+//更新資料表
+function update($array){
+  $dsn="mysql:host=localhost;charset=utf8;dbname=shop";
+  $pdo=new PDO($dsn,"root","");
+  //處理$set陣列
+  foreach($array['set'] as $key => $value){
+
+    $s[]=sprintf("%s='%s'",$key,$value);
+
+  }
+  
+  //處理$where陣列
+  foreach($array['where'] as $key => $value){
+
+    $w[]=sprintf("%s='%s'",$key,$value);
+
+  }
+    
+  $sql="update ".$array['table']." set ".implode(',',$s)." where ".implode(" && ",$w)."";
+  //echo $sql;
+  $result=$pdo->exec($sql); //改用exec來回傳受影響的資料筆數
+  return $result;
+}
+
 
 //檢查字串是否空白
 function chkSpace($str){

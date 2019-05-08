@@ -1,8 +1,8 @@
 <?php
 
 //取出所有的使用者
-$sql="select * from user ";
-$users=$pdo->query($sql)->fetchAll();
+
+$users=all("user");
 
 echo "<ul>";
 
@@ -21,8 +21,8 @@ echo "<br><br>";
 if(!empty($_GET['id'])){
 
   //依照取得的使用者id值從資料庫撈出資料
-  $sql="select * from user where id='".$_GET['id']."'";
-  $user=$pdo->query($sql)->fetch();
+  
+  $user=find("user",$_GET['id']);
 
   //在畫面上顯示使用者的資料
   echo "acc=".$user['acc']."<br>";
@@ -50,9 +50,19 @@ if(!empty($_POST['per']) && !empty($_POST['id'])){
   $per=serialize($_POST['per']); //將設定權限的值轉成序列化的字串
   $id=$_POST['id'];
 
+
+  $array=[
+    'table'=>"user",
+    'set'=>[
+      'permission'=>$per
+    ],
+    'where'=>[
+      'id'=>$id
+    ]
+  ];
   //建立更新資料欄位的SQL語法
-  $sql="update user set permission='$per' where id='".$id."'";
-  $result=$pdo->query($sql);
+ 
+  $result=update($array);
 
   //顯示更新成功或失敗;
   if($result){
