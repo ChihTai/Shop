@@ -1,0 +1,9 @@
+1.修正form表單的action目標到正確的位置
+  login.php->login.php,
+  reg.php->reg.php
+2.增加nav.php的首頁選項
+3.修改member.php符合版型
+4.增加nav.php的登出選項
+5.修改index.php，增加switch...case來整合各功能
+6.修改各頁面以符合版型
+7.調整include base.php的位置到index.php最上面，讓各元件都能套用到

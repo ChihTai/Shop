@@ -1,3 +1,4 @@
+<!---上方導覽列--->
 <div id="nav">
       <ul class="nav">
         <li><a href="index.php">首頁</a></li>
@@ -12,8 +13,8 @@
       }
       ?>
       <?php 
-        //利用session來判斷使用者的登入狀態用以決定是不是要顯示登出的功能
-        if(!empty($_SESSION['login']) && $_SESSION['login']=='admin'){
+        //利用session來判斷使用者是否為管理者，如果是管理者就顯示管理頁面的連結
+        if(!empty($_SESSION['login']) && $_SESSION['user']=='admin'){
           echo "<li><a href='index.php?do=admin'>管理頁面</a></li>";
       }
       ?>

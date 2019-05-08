@@ -5,20 +5,31 @@ $sql="select * from user ";
 $users=$pdo->query($sql)->fetchAll();
 
 echo "<ul>";
+
+//利用迴圈來取出所有的使用者
 foreach ($users as $key => $value) {
-  echo "<li><a href='?do=admin&per=".$value['id']."'>".$value['acc']."-".$value['name']."</a></li>";
+
+  //每個使用者的資料加上連結，並在連結後加上使用者的資料id
+  echo "<li><a href='?do=admin&id=".$value['id']."'>".$value['acc']."-".$value['name']."</a></li>";
 }
 echo "</ul>";
 
 echo "<br><br>";
 
-if(!empty($_GET['per'])){
-  $sql="select * from user where id='".$_GET['per']."'";
+
+//檢查是否有$_GET['id']的值存在
+if(!empty($_GET['id'])){
+
+  //依照取得的使用者id值從資料庫撈出資料
+  $sql="select * from user where id='".$_GET['id']."'";
   $user=$pdo->query($sql)->fetch();
+
+  //在畫面上顯示使用者的資料
   echo "acc=".$user['acc']."<br>";
   echo "name=".$user['name']."<br>";
   echo "permission=".$user['permission']."<br>";
 ?>
+  <!---顯示權限的設定列表--->
   <form action="index.php?do=admin" method="post">
     <input type="checkbox" name="per[]" value="1">關於我們<br>
     <input type="checkbox" name="per[]" value="2">最新資訊<br>
@@ -26,17 +37,24 @@ if(!empty($_GET['per'])){
     <input type="checkbox" name="per[]" value="4">產品訂購<br>
     <input type="checkbox" name="per[]" value="5">留言板<br>
     <input type="checkbox" name="per[]" value="6">生活留影<br>
+    <!---設定一個隱藏欄位用來存放使用者的id--->
     <input type="hidden" name="id" value="<?=$user['id'];?>">
     <input type="submit" value="確認送出">
   </form>
 <?php
 }
 
+//檢查是否有表單送過來的POST值，為了避免跟其他的功能衝突，同時也檢查使用者ID的值
 if(!empty($_POST['per']) && !empty($_POST['id'])){
-  $per=serialize($_POST['per']);
+
+  $per=serialize($_POST['per']); //將設定權限的值轉成序列化的字串
   $id=$_POST['id'];
+
+  //建立更新資料欄位的SQL語法
   $sql="update user set permission='$per' where id='".$id."'";
   $result=$pdo->query($sql);
+
+  //顯示更新成功或失敗;
   if($result){
     echo "更新成功";
   }else{

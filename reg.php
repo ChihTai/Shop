@@ -1,60 +1,64 @@
 <?php
   include_once "base.php";
 
+  //檢查是否有透過POST傳遞過來的值
   if(!empty($_POST)){
+
+    //將POST過的值存入相應的變數
     $acc=$_POST['acc'];
     $pw=$_POST['pw'];
     $name=$_POST['name'];
 
-  //檢查資料空白
-        
-  if($acc=="" || $pw=="" || $name==""){
+    //建立一個錯誤訊息的字串陣列
+    $errMeg=[
+      1=>"欄位請勿空白",
+      2=>"欄位長度請在4-12之間",
+      3=>"欄位全是數字，請至少一個以上的英文字",
+      4=>"欄位全是英文，請至少一個以上的數字",
+      5=>"欄位請勿使用英數字以外的符號"
+    ];
 
-    echo "請輸入資料，不可空白";
-    $chk1=false;
+  /*********************檢查密碼************************************* */
+    $accErr=""; //建立一個存放錯誤訊息的空字串
 
-  }else{
-
-    $chk1=true;
-  }
-
-  /*********************檢查帳號************************************* */
-  //檢查資料長度
-  if(strlen($acc) < 4 || strlen($acc) > 12 ){
-
-    echo "帳號請在4-12碼之間";
-    $chk2=false;
-
-  }else{
-      $chk2=true;
+    //逐一檢查各項錯誤，並累加各項錯誤訊息
+    if(chkSpace($acc)){
+      $accErr=$accErr . $errMeg[1];
+    }
+    if(!chkLength($acc)){
+      $accErr=$accErr . $errMeg[2];
+    }
+    if(chkSym($acc)){
+      $accErr=$accErr . $errMeg[5];
     }
 
-  //英數字與特殊符號綜合判定
-  if(chkSym($acc) || chkEng($acc) || chkNum($acc) ){
-    echo "有特殊符號，而且全英文或數字";
-    $chk3=false;
-  }else{
-    $chk3=true;
-  }
+
   /*********************檢查密碼************************************* */
-  //檢查資料長度
-  if(strlen($pw) < 4 || strlen($pw) > 12 ){
+    $pwErr="";
+    if(chkSpace($pw)){
+      $pwErr=$pwErr . $errMeg[1];
+    }
+    if(!chkLength($pw)){
+      $pwErr=$pwErr . $errMeg[2];
+    }
+    if(chkNum($pw)){
+      $pwErr=$pwErr . $errMeg[3];
+    }    
+    if(chkEng($pw)){
+      $pwErr=$pwErr . $errMeg[4];
+    }    
+    if(chkSym($pw)){
+      $pwErr=$pwErr . $errMeg[5];
+    }    
 
-    echo "帳號請在4-12碼之間";
-    $chkPw1=false;
-
-  }else{
-    $chkPw1=true;
+  /*********************檢查名稱************************************* */
+  $nameErr="";
+  if(chkSpace($name)){
+    $nameErr=$nameErr . $errMeg[1];
   }
-
-  //英數字與特殊符號綜合判定
-  if(chkSym($pw) || chkEng($pw) || chkNum($pw) ){
-    echo "密碼有特殊符號，或全英文或數字";
-    $chkPw2=false;
-  }else{
-    $chkPw2=true;
-  }
-
+  if(chkSym($name)){
+    $nameErr=$nameErr . $errMeg[5];
+  }  
   /*******檢查帳號是否已存在 */
 
   $sql="select acc from user where acc='$acc'";
@@ -66,7 +70,7 @@
     $chkAccount=false;
   }
 
-  if($chk1==true && $chk2==true && $chk3==true && $chkPw1==true && $chkPw2==true && $chkAccount==false){
+  if($accErr=="" && $pwErr=="" && $nameErr=="" && $chkAccount==false){
      //建立新增資料的語法
      $sql="insert into user (`acc`,`pw`,`name`) values('$acc','$pw','$name')";
     
@@ -81,20 +85,56 @@
 }
 ?>
 
-
+  <style>
+    .errmeg{
+      color:red;
+      font-size:12px;
+      font-family:"微軟正黑體";
+      text-align:left;
+    }
+  </style>
   <form action="index.php?do=reg" method="post">
   <table>
     <tr>
       <td>帳號</td>
-      <td><input type="text" name="acc" id="acc"></td>
+      <td>
+        <input type="text" name="acc" id="acc">
+        <p class="errmeg">
+        <?php
+          if(!empty($accErr)){
+            echo $accErr;
+          }
+        ?>
+        </p>
+
+      </td>
     </tr>
     <tr>
       <td>密碼</td>
-      <td><input type="password" name="pw" id="pw"></td>
+      <td><input type="password" name="pw" id="pw">
+      <p class="errmeg">
+        <?php
+          if(!empty($pwErr)){
+            echo $pwErr;
+          }
+        ?>
+        </p>
+        </td>      
     </tr>
     <tr>
-      <td>本名</td>
-      <td><input type="text" name="name" id="name"></td>
+      <td>本名
+
+      </td>
+      <td>
+        <input type="text" name="name" id="name">
+        <p class="errmeg">
+          <?php
+            if(!empty($nameErr)){
+              echo $nameErr;
+            }
+          ?>
+          </p>
+      </td>
     </tr>
     <tr>
       <td><input type="submit" value="新增"></td>
